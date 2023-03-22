@@ -59,6 +59,20 @@ exports.delete_goal = function (req, res, next) {
     });
 }
 
+// Update a goal from the DB. This triggers on a POST request from the goal_detail page.
+
+exports.update_goal = function (req, res, next) {
+    let is_completed = req.body.is_completed;
+    console.log(is_completed);
+    goals.findByIdAndUpdate(req.params.id, {is_completed: is_completed}, {}, function (err, thegoal) {
+        if (err) {
+            return next(err);
+        }
+        res.redirect(thegoal.url);
+    });
+}
+
+
 
 
 // Count number of goals in DB

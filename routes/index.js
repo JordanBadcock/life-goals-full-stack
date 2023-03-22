@@ -22,4 +22,7 @@ router.post("/create", goal_controller.create_goal);
 // POST request to delete Post.
 router.post("/goals/:id/delete", goal_controller.delete_goal);
 
+// POST request to update Post.
+router.post("/goals/:id/update", goal_controller.update_goal);
+
 module.exports = router;

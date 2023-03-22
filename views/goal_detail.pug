@@ -2,12 +2,38 @@ extend layout
 
 block content
   h1= goal.goal
-  p Created: #{goal.date_created}
-  p Due: #{goal.due_date}
-  p #{goal.status ? 'Completed' : 'Not completed'}
 
+
+  p Created: #{goal.date_created.toDateString()}
+  p Due: #{goal.due_date.toDateString()}
+
+  //- show the status of the goal
+  if goal.is_completed
+    p(class="text-success") Completed 🥳
+  else
+    p(class="text-danger") Not completed
+  
+  //- update form
+  form(action=`/goals/${goal._id}/update` method="POST")
+    
+    //- toggle the is_completed value
+    if goal.is_completed
+      input(type="hidden", name="is_completed" value="false")
+    else
+      input(type="hidden", name="is_completed" value="true")
+
+    //- toggle the button text
+    if goal.is_completed
+      button(type="submit" class="btn btn-warning") Mark as Incomplete
+    else
+      button(type="submit" class="btn btn-primary") Mark as Complete
+
+  br
+
+  //- delete form
   form(action=`/goals/${goal._id}/delete` method="POST")
     button(type="submit" class="btn btn-danger") Delete
 
+  br
 
-  a(href="/") Back to goals
+  a(href="/") &lt;-- Back to goals

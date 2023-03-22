@@ -16,9 +16,15 @@ body {
   margin: 2rem 0;
 }
 
+.completed-goal {
+  text-decoration: line-through;
+}
+
 a {
   text-decoration: none;
   color: rgb(139, 139, 240);
 }
 
-
+label {
+  margin-right: 1rem;
+}
