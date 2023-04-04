@@ -1,0 +1,17 @@
+extends layout
+
+block content
+  h1= title
+
+    if (goals.length)
+  div(class="goals")
+    each goal in goals
+      div(class=`${goal.is_completed ? "completed-goal" : "goal"}`)
+        a(href=`/goals/${goal._id}`) #{goal.goal}
+        |  (End date: #{goal.due_date.toDateString()})
+    else
+     p You have no goals yet.
+
+    a(href="/create") Create Goal
+    a(href="/log-out") Log Out 
+    

@@ -25,7 +25,7 @@ exports.goal_detail = function (req, res, next) {
         if (err) {
             return next(err);
         }
-        res.render("goal_detail", { title: "Goal Detail", goal: result });
+        res.render("goal_detail", { title: "Goal Detail", goal: result }); // pass the `goal` object to the view
     });
 }
 
@@ -39,7 +39,8 @@ exports.create_goal = function (req, res, next) {
     let goal = new goals({
         goal: req.body.goal,
         due_date: req.body.due_date,
-        is_completed: req.body.is_completed
+        is_completed: req.body.is_completed,
+        user_id: req.user._id // assume user is authenticated and their id is stored in req.user._id
     });
     goal.save(function (err) {
         if (err) {
@@ -72,8 +73,18 @@ exports.update_goal = function (req, res, next) {
     });
 }
 
-
-
+exports.user_goals = async function(req, res, next) {
+    try {
+        const userGoals = await goals.find({ user_id: req.user._id });
+        if (userGoals.length === 0) {
+            res.redirect('/create');
+        } else {
+            res.render("goals", { goals: userGoals });
+        }
+    } catch (err) {
+        return next(err);
+    }
+};
 
 // Count number of goals in DB
 
@@ -82,7 +93,4 @@ exports.update_goal = function (req, res, next) {
 //         if (err) {
 //             return next(err);
 //         }
-//         res.send(`There are ${count} goals in the database.`);
-//     });
-// };
-
+//         res.send(`There are ${count} goals in
